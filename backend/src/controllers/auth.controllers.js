@@ -6,20 +6,33 @@ import { generateToken } from "../utils/auth.utils.js";
 export const signup = async (req , res)=>
 {
     const { email , fullName , password } = req.body;
+
     try {
         if(password.length<8){
+
         return res.status(400).json({message:"Password must be longer than 8 characters"})
-        }
-        const existinguser = await User.findOne({ email })     
+        
+    }
+
+
+        const existinguser = await User.findOne({ email }) 
+
         if (existinguser) 
-        {res.status(400).json({message:"Email is already registered"})
+        {
+            return res.status(400).json({message:"Email is already registered"})
         }
+
+        if(!fullName || !email || !password){
+            return res.status(400).json({message:"All feilds are required"})
+        }
+
 
         const hashedPassword = await bcrypt.hash(password , 10)
-
+        
+        
         const newUser = new User({
-            fullName,
             email,
+            fullName,
             password:hashedPassword
         })
         if(newUser){
@@ -32,12 +45,12 @@ export const signup = async (req , res)=>
             })
         }
         else{
-            res.status(400).json({message:"Invalid User Data"})
+           return res.status(400).json({message:"Invalid User Data"})
         }
 
     } catch (error) {
         console.log("error in signup controller" , error.message)
-        res.status(500).json({message:"Internal Server error"})
+        return res.status(500).json({message:"Internal Server error"})
     
     }
 }
