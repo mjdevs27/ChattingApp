@@ -58,11 +58,44 @@ export const signup = async (req , res)=>
 
 export const logout = (req , res)=>
 {
-    res.send("hello user you have logged out")
+    
+    try {
+        res.cookie("jwt" , "" , {maxAge:0})
+        res.status(201).json({message:"you are sucessfully logged out"})
+    } catch (error) {
+        
+    }
 }
 
 
-export const login = (req , res)=>
+export const login = async(req , res)=>
 {
-    res.send("hello user you have logged in")
+    try {
+    const {email , password} = req.body
+
+    const existsUser = await User.findOne({ email })
+
+    if(!existsUser)
+    {
+        return res.status(400).json({message : "Invalid Credentials"})
+    }
+
+    const ValidatePassword = await bcrypt.compare(password , existsUser.password)
+    if(!ValidatePassword){
+        return res.status(400).json({message : "Invalid Credentials"})
+    }
+
+    generateToken(existsUser._id , res)
+
+    res.status(201).json({
+        _id:existsUser._id,
+        fullName:existsUser.fullName,
+        email:existsUser.email
+        })
+    
+    }
+    catch (error) {
+        console.log("Error in login method" , error.message)
+        return res.status(500).json({message:"Internal Sever Error"})
+    }
 }
