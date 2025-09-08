@@ -1,6 +1,6 @@
 import express from "express"
-import validateProfileMiddleware from "../middlewares/auth.middleware"
-import { getUsersforSideBar , getMessages , sendMessages } from "../controllers/message.controllers"
+import validateProfileMiddleware from "../middlewares/auth.middleware.js"
+import { getUsersforSideBar , getMessages , sendMessages } from "../controllers/message.controllers.js"
 import { send } from "vite"
 
 
