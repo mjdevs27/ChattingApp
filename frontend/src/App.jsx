@@ -1,9 +1,25 @@
-export default function App() {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <h1 className="text-4xl font-bold text-blue-600">
-        Hello✅
-      </h1>
+import React from "react"
+import{ Routes , Route }from "react-router-dom"
+import Navbar from "./components/Navbar.jsx"
+import HomePage from "./pages/HomePage.jsx"
+import SignUpPage from "./pages/SignUpPage.jsx"
+
+const App = ()=>{
+  return(
+    <div>
+      <Navbar/>
+
+
+      <Routes >
+        <Route path="/" element={ <HomePage/> }/>
+        <Route path="/signup" element={ <SignUpPage/> }/>
+      </Routes>
+
     </div>
   )
+
+
+
 }
+
+export default App

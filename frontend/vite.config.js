@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [
     react(),
     tailwindcss({
-      plugins: [daisyui],   // ✅ Enable DaisyUI
+      plugins: [daisyui],   
     }),
   ],
 })

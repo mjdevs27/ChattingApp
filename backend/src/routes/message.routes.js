@@ -1,7 +1,7 @@
 import express from "express"
 import validateProfileMiddleware from "../middlewares/auth.middleware.js"
 import { getUsersforSideBar , getMessages , sendMessages } from "../controllers/message.controllers.js"
-import { send } from "vite"
+// import { send } from "vite"
 
 
 const router = express.Router()
