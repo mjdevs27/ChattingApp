@@ -2,13 +2,13 @@ import jwt from "jsonwebtoken"
 import User from "../models/user.model.js"
 
 const validateProfileMiddleware = async (req , res , next)=>{
-    const token = res.cookies.jwt
+    const token = req.cookies.jwt
     try{
     	if (!token) {
 			return res.status(401).json({ error: "Unauthorized - No Token Provided" });
 		}
 
-		const decoded = jwt.verify(token, process.env.JWT_SECRET);
+		const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
 
 		if (!decoded) {
 			return res.status(401).json({ error: "Unauthorized - Invalid Token" });
