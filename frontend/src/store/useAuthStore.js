@@ -2,7 +2,7 @@ import {create} from 'zustand'
 import { axiosInstance } from '../lib/axios'
 import toast from "react-hot-toast"
 
-export const useAuthStore = create((set)=>({
+export const useAuthStore = create((set , get)=>({
     authUser : null ,
     isSigningUp : false,
     isLoggingIn : false,
@@ -14,6 +14,7 @@ export const useAuthStore = create((set)=>({
         try {
             const res = await axiosInstance.get("/auth/check")
             set({authUser : res.data})
+            get().connectSocket()
         } catch (error) {
             set({authUser : null})
             console.log(error , "error in useAuthStore")
@@ -23,13 +24,15 @@ export const useAuthStore = create((set)=>({
             set( {isCheckingAuth  : false } )
         }
     },
-     signup: async (data) => {
+
+
+    signup: async (data) => {
         set({ isSigningUp: true });
     try {
         const res = await axiosInstance.post("/auth/signup", data);
         set({ authUser: res.data });
         toast.success("Account created successfully");
-        // get().connectSocket();
+        get().connectSocket();
     } catch (error) {
         toast.error(error.response.data.message);
     } finally {
@@ -42,6 +45,7 @@ export const useAuthStore = create((set)=>({
         try {
             const res  = await axiosInstance.post("auth/login" , data)
             set({authUser: res.data })
+            get().connectSocket()
             toast.success("Logged In successfully");
         } catch (error) {
             set({authUser : null})
@@ -51,11 +55,14 @@ export const useAuthStore = create((set)=>({
         }
 
     },
+
+
     logout : async ()=>{
         try {
             await axiosInstance.post("/auth/logout")
             set({authUser : null})
             toast.success("Logged out succesfully")
+            get().disconnectSocket()
         } catch (error) {
             toast.error("something went wrong" , error)
         }
@@ -74,4 +81,7 @@ export const useAuthStore = create((set)=>({
         set({ isUpdatingProfile: false });
     }
     },
+
+    connectSocket:{},
+    disconnectSocket:{}
 }))
