@@ -3,7 +3,7 @@ import Message from "../models/message.model.js";
 import User from "../models/user.model.js";
 import cloudinary from "../utils/cloudinary.utils.js";
 import { getRecieverSocketId } from "../utils/socket.js";
-
+import {io} from "../utils/socket.js";
 export const getUsersforSideBar = async( req , res )=>{
     
     try {
@@ -29,7 +29,8 @@ export const getMessages = async( req,res )=>{
         const messages = await Message.find({
             $or : [
             {
-                senderId : myId , recieverId:userToChat_WithId
+                senderId : myId ,
+                recieverId:userToChat_WithId
             } , 
             {
                 senderId : userToChat_WithId , 
@@ -55,7 +56,7 @@ export const sendMessages = async ( req , res )=>{
             imageUrl = upload.secure_url;
         }
         const newMessage = new Message({
-                senderId,
+                senderId : myId,
                 recieverId,
                 text,
                 image:imageUrl
