@@ -6,7 +6,7 @@ A real-time chat application built with **MERN stack** (MongoDB, Express.js, Rea
 
 ## 🚀 Live Demo
 
-👉 [ChatKaro - Live App](https://chatkaro.onrender.com)
+👉 [ChatKaro - Live App](https://chattingchuttingapp.onrender.com)
 
 ---
 
